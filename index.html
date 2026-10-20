@@ -1,38 +1,282 @@
 <!DOCTYPE html>
 <html lang="eng">
-    <head>
-        <title>Manchester United Football Club</title>
-        <style>
-            h1 {text-align: center; background-color: yellowgreen; color: red; border: 2px solid black;}
-            h2 {color: red;}
-            h3 {font-family: Arial;}
-        </style>
-    </head>
+<head>
+<title>MUFC Who Are Ya!!</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    * {
+        box-sizing: border-box;
+    }
 
-    <body>
-        <h1>Manchester United Football Club</h1>
-        <img src="images/MUFCLogo.png" width="204" height="192" alt="A red devil underneath a ship">
-        <hr>
-        <h2>Profile:</h2>
-        <pre>
-Founded: 1878
-Ground: Old Trafford
-Capacity: 74,158
-Head Coach: <strong>Michael Carrick</strong>
-<a href="https://www.manutd.com/en">Official Website</a>
-        </pre>
-        <h2>Honours:</h2>
-        <h3>First Division/Premier League</h3>
-        <p>20</p>
-        <h3>FA Cup</h3>
-        <p>13</p>
-        <h3>League Cup</h3>
-        <p>6</p>
-        <h3>Charity Shield</h3>
-        <p>21</p>
-        <h3>European Cup/UEFA Champions League</h3>
-        <p>3</p>
-        <h3>UEFA Europa League</h3>
-        <p>1</p>
-    </body>
+    #home {
+        display: block;
+    }
+
+    #history, #squad, #honours, #mImage {
+        display: none;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(12, [col-start] 1fr);
+        gap: 20px;
+    }
+
+    nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    ul li a {
+        color: black;
+        text-align: center;
+        padding: 10px 10px;
+        text-decoration: none;
+    }
+
+    ul li a:hover {
+        background-color: red;
+        font-weight: bold;
+        color: white;
+    }
+
+    table {
+        background-color: white;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    /*Mobile Layout*/
+    .grid-container > * {
+        border: 1px solid red;
+        background-color: lightgrey;
+        padding: 20px;
+        grid-column: col-start / span 12;
+    }
+
+    @media (min-width: 768px) {
+        .menu {
+            grid-column: col-start / span 3;
+            grid-row: 2;
+        }
+
+        .content {
+            grid-column: col-start 4 / span 9;
+            grid-row: 2;
+        }
+
+        .nav ul {
+            flex-direction: column;
+            justify-content: space-between;
+        }
+    }
+</style>
+<script>
+    function history() {
+        document.getElementById("history").style.display = "block";
+        document.getElementById("squad").style.display = "none";
+        document.getElementById("honours").style.display = "none";
+        document.getElementById("home").style.display = "none";
+    }
+
+    function squad() {
+        document.getElementById("history").style.display = "none";
+        document.getElementById("squad").style.display = "block";
+        document.getElementById("honours").style.display = "none";
+        document.getElementById("home").style.display = "none";
+    }
+
+    function honours() {
+        document.getElementById("history").style.display = "none";
+        document.getElementById("squad").style.display = "none";
+        document.getElementById("honours").style.display = "block";
+        document.getElementById("home").style.display = "none";
+    }
+
+    function home() {
+        document.getElementById("history").style.display = "none";
+        document.getElementById("squad").style.display = "none";
+        document.getElementById("honours").style.display = "none";
+        document.getElementById("home").style.display = "block";
+    }
+
+    let playerVotes = {
+        "Senne Lammens": 0,
+        "Harry Maguire": 0,
+        "Lisandro Martinez": 0,
+        "Bruno Fernandes": 0,
+        "Kobbie Mainoo": 0,
+        "Benjamin Sesko": 0,
+        "Bryan Mbeumo": 0
+    };
+
+    function subscribe() {
+        let fplayer = document.getElementById("fplayer").value;
+
+        playerVotes[fplayer]++;
+
+        alert(
+            "Favourite Player:\n" +
+            "Senne Lammens: " + playerVotes["Senne Lammens"] + "\n" +
+            "Harry Maguire: " + playerVotes["Harry Maguire"] + "\n" +
+            "Lisandro Martinez: " + playerVotes["Lisandro Martinez"] + "\n" +
+            "Bruno Fernandes: " + playerVotes["Bruno Fernandes"] + "\n" +
+            "Kobbie Mainoo: " + playerVotes["Kobbie Mainoo"] + "\n" +
+            "Benjamin Sesko: " + playerVotes["Benjamin Sesko"] + "\n" +
+            "Bryan Mbeumo: " + playerVotes["Bryan Mbeumo"]
+        )
+    }
+
+    async function meal() {
+        const url = "https://api.freeapi.app/api/v1/public/meals/meal/random";
+
+        const response = await fetch(url);
+
+        const json = await response.json();
+
+        document.getElementById("mName").innerHTML = json.data.strMeal;
+        document.getElementById("mInstructions").innerHTML = json.data.strInstructions;
+        document.getElementById("mImage").style.display = "block";
+        document.getElementById("mImage").src = json.data.strMealThumb;
+        document.getElementById("mVideo").href = json.data.strYoutube;
+        document.getElementById("mVideo").innerHTML = "Watch Video";
+    }
+</script>
+</head>
+<body>
+    <div class="grid-container">
+        <h1 class="header">Manchester United Football Club</h1>
+        <nav class="menu">
+            <ul>
+                <li onclick="home()"><a href="#home">Home</a></li>
+                <li onclick="history()"><a href="#history">History</a></li>
+                <li onclick="squad()"><a href="#squad">Current Squad</a></li>
+                <li onclick="honours()"><a href="#honours">Honours</a></li>
+            </ul>
+        </nav>
+        <div class="content">
+            <section id="home">
+                <h2>MUFC Fan Page</h2>
+                <img src="images/MUFCLogo.png" alt="Manchester United Logo" width="300" height="300">
+                <p>Welcome to the MUFC Fan Page! Subscribe to our newsletter to stay updated with the latest news and updates.</p>
+                <form action="newsletter.php" method="post">
+                    <label for="fname">First Name:</label><br>
+                    <input type="text" id="fname" name="fname" required><br>
+                    <label for="lname">Last Name:</label><br>
+                    <input type="text" id="lname" name="lname" required><br>
+                    <label for="email">Email:</label><br>
+                    <input type="email" id="email" name="email" required><br>
+                    <label for="fplayer">Favorite Player:</label><br>
+                    <input list="players" id="fplayer" name="fplayer" required><br>
+                    <datalist id="players">
+                        <option value="Senne Lammens">
+                        <option value="Harry Maguire">
+                        <option value="Lisandro Martinez">
+                        <option value="Bruno Fernandes">
+                        <option value="Kobbie Mainoo">
+                        <option value="Benjamin Sesko">
+                        <option value="Bryan Mbeumo">
+                    </datalist><br>
+                    <input type="button" value="Subscribe" onclick="subscribe()"><br>
+                    <p><b>Click the button below to get a random recipe of the day to enjoy from us!</b></p><br>
+                    <input type="button" onclick="meal()" value="Recipe Of The Day"><br>
+                    <h2 id="mName"></h2><br>
+                    <p id="mInstructions"></p><br>`
+                    <img id="mImage" src="" alt="Meal Image" width="300" height="200"><br>
+                    <a id="mVideo" href="" target="_blank"></a><br>
+                </form>
+            </section>
+            <section id="history">
+                <h2>History:</h2>
+                <img src="images/OldTrafford.jpg" alt="Old Trafford Stadium" width="390" height="260">
+                <p>Manchester United Football Club is a professional football club based in Greater Manchester and nicknamed the Red Devils. The club was founded in 1878 as Newton Heath LYR Football Club, and changed its name to Manchester United in 1902. Manchester United are one of the most successful clubs in English football history, having won a record 20 league titles and being the first english club to win the European Cup. Long-standing rivalries exist with both Liverpool and Manchester City with derby games being some of the most anticipated matches in the sport. Manchester United play their home matches at Old Trafford, having moved to the stadium in 1910 from the Bank Street ground. Old Trafford has been regualrly renovated over the years currently having a capacity of 74,158 and has played host to many memorable moments in not only the club's history but annually hosting the Rugby League Grand Final.</p>
+            </section>
+            <section id="squad">
+                <h2>Current Squad:</h2>
+                <h3>Goalkeeper:</h3>
+                <div class="goalkeeper">
+                    <img src="images/SenneLammens.png" alt="Senne Lammens MUFC Goalkeeper" width="250" height="250">
+                    <p><strong>Senne Lammens</strong><br><b>Nationality:</b> Belgium<br><b>International Caps:</b> 6<br><b>Date of Birth:</b> 07/07/2002<br><b>Profile:</b><br>Lammens joined Manchester United in 2025 from Royal Antwerp for a fee of £18.1 million making his debut on the 4th of October against Sunderland. He quickly established himself as the first choice goalkeeper for the club being named Premier League Transfer of the 2025-26 season.</p>
+                </div>
+                <h3>Defenders:</h3>
+                <div class="defender">
+                    <img src="images/HarryMaguire.png" alt="Harry Maguire MUFC Defender" width="250" height="250">
+                    <p><strong>Harry Maguire</strong><br><b>Nationality:</b> England<br><b>International Caps:</b> 66<br><b>Date of Birth:</b> 05/03/1993<br><b>Profile:</b><br>Maguire moved to Manchester United in 2019 from Leicester City for a transfer fee of £80 million. Making him the most expensive defender in the world at the time. He made his debut on the 11th of August against Chelsea and has been a key player for the club, helping them win both the FA Cup in 2024 and EFL Cup in 2023. He has previously captained the club under Ole Gunnar Solskjaer.</p>
+                    <img src="images/LisandroMartinez.png" alt="Lisandro Martinez MUFC Defender" width="250" height="250">
+                    <p><strong>Lisandro Martinez</strong><br><b>Nationality:</b> Argentina<br><b>International Caps:</b> 38<br><b>Date of Birth:</b> 18/01/1998<br><b>Profile:</b><br>Martinez joined Manchester United in 2022 from Ajax for an agreed fee of £49 million making his debut on the 7th of August against Brighton & Hove Albion. He has been a strong defensive presence for both club and country helping Manchester United to the FA Cup in 2024 and the EFL Cup in 2023. He was part of the Argentina national team that won Copa América in both 2021 and 2024 and the FIFA World Cup in 2022.</p>
+                </div>
+                <h3>Midfielders:</h3>
+                <div class="midfielder">
+                    <img src="images/BrunoFernandes.png" alt="Bruno Fernandes MUFC Midfielder" width="250" height="250">
+                    <p><strong>Bruno Fernandes</strong><br><b>Nationality:</b> Portugal<br><b>International Caps:</b> 97<br><b>Date of Birth:</b> 08/09/1994<br><b>Profile:</b><br>Fernandes arrived at Manchester United in 2020 from Sporting CP for a transfer fee of £67.6 million. Fernandes is the current captain of the club and has been a key player, helping them win both the FA Cup in 2024 and EFL Cup in 2023. He has also been a strong performer for the Portugal national team, earning 97 caps and scoring 29 goals while helping the team to victory in the UEFA Nations League in both 2019 and 2025.</p>
+                    <img src="images/KobbieMainoo.png" alt="Kobbie Mainoo MUFC Midfielder" width="250" height="250">
+                    <p><strong>Kobbie Mainoo</strong><br><b>Nationality:</b> England<br><b>International Caps:</b> 14<br><b>Date of Birth:</b> 19/04/2005<br><b>Profile:</b><br>Mainoo is a graduate of the Manchester United academy signing his first professional contract with the club in 2022 and making his debut against Newcastle United on the 16th of October. Through his performances he has become an important player for the club. He has been praised for his technical ability and work rate and was a member of the squad that won the FA Cup in 2024.</p>
+                </div>
+                <h3>Forwards:</h3>
+                <div class="forward">
+                    <img src="images/BenjaminSesko.png" alt="Benjamin Sesko MUFC Forward" width="250" height="250">
+                    <p><strong>Benjamin Sesko</strong><br><b>Nationality:</b> Slovenia<br><b>International Caps:</b> 45<br><b>Date of Birth:</b> 31/05/2003<br><b>Profile:</b><br>Sesko moved to Manchester United in 2025 from RB Leipzig for a fee of £76.5 million with an additional £8.5 million in performance related add-ons. He made his debut on the 17th of August against Arsenal and is considered one of the most promising young strikers in European football. Finishing the 2025-26 season as joint top goal scorer with 11 league goals.</p>
+                    <img src="images/BryanMbeumo.png" alt="Bryan Mbeumo MUFC Forward" width="250" height="250">
+                    <p><strong>Bryan Mbeumo</strong><br><b>Nationality:</b> Cameroon<br><b>International Caps:</b> 35<br><b>Date of Birth:</b> 07/08/1999<br><b>Profile:</b><br>Mbeumo joined Manchester United during the summer of 2025 for a transfer fee of £71 million, following a successful season where he scored 20 league goals. He has quickly established himself as a key player for the club, known for his pace and technical ability. Mbeumo has been a regular starter for the team finishing as joint top goal scorer in his first season with 11 league goals.</p>
+                </div>
+            </section>
+            <section id="honours">
+                <h2>Honours</h2>
+                <table>
+                    <tr>
+                        <th colspan="2">Competiton</th>
+                        <th>Titles</th>
+                        <th>Season</th>
+                    </tr>
+                    <tr>
+                        <td><img src="images/PremierLeague.png" alt="Premier League Trophy" width="100" height="100"></td>
+                        <td>Premier League</td>
+                        <td>20</td>
+                        <td>1907–08, 1910–11, 1951–52, 1955–56, 1956–57, 1964–65, 1966–67, 1992–93, 1993–94, 1995–96, 1996–97, 1998–99, 1999–2000, 2000–01, 2002–03, 2006–07, 2007–08, 2008–09, 2010–11, 2012–13</td>
+                    </tr>
+                    <tr>
+                        <td><img src="images/FACup.jpg" alt="FA Cup Trophy" width="100" height="100"></td>
+                        <td>FA Cup</td>
+                        <td>13</td>
+                        <td>1908–09, 1947–48, 1962–63, 1976–77, 1982–83, 1984–85, 1989–90, 1993–94, 1995–96, 1998–99, 2003–04, 2015–16, 2023–24</td>
+                    </tr>
+                    <tr>
+                        <td><img src="images/LeagueCup.png" alt="League Cup Trophy" width="100" height="100"></td>
+                        <td>League Cup</td>
+                        <td>6</td>
+                        <td>1991–92, 2005–06, 2008–09, 2009–10, 2016–17, 2022–23</td>
+                    </tr>
+                    <tr>
+                        <td><img src="images/ChampionsLeague.png" alt="Champions League Trophy" width="100" height="100"></td>
+                        <td>UEFA Champions League</td>
+                        <td>3</td>
+                        <td>1967–68, 1998–99, 2007–08</td>
+                    </tr>
+                    <tr>
+                        <td><img src="images/EuropaLeague.png" alt="Europa League Trophy" width="100" height="100"></td>
+                        <td>UEFA Europa League</td>
+                        <td>1</td>
+                        <td>2016-17</td>
+                    </tr>
+                </table>
+            </section>
+        </div>
+    </div>
+</body>
 </html>
